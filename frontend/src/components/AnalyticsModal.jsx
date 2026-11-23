@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { X, BarChart3 } from 'lucide-react';
 
 export default function AnalyticsModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
-
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isOpen) return;
+
     fetch('http://127.0.0.1:8000/api/analytics/')
       .then(res => res.json())
       .then(json => {
@@ -18,7 +18,9 @@ export default function AnalyticsModal({ isOpen, onClose }) {
         console.error('Failed to load analytics:', err);
         setLoading(false);
       });
-  }, []);
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   const COLORS = ['#0066cc', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
 

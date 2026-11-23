@@ -50,17 +50,23 @@ export default function App() {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      const firstKey = Object.keys(errorData)[0];
-      const message = Array.isArray(errorData[firstKey]) ? errorData[firstKey][0] : errorData[firstKey];
-      throw new Error(message || 'Validation or Server Error');
+      const responseText = await response.text();
+      let message = responseText || 'Validation or server error';
+      try {
+        const errorData = JSON.parse(responseText);
+        const firstValue = Object.values(errorData)[0];
+        message = Array.isArray(firstValue) ? firstValue[0] : firstValue || message;
+      } catch {
+        message = responseText || 'Validation or server error';
+      }
+      throw new Error(String(message));
     }
 
     await fetchJobs();
   };
 
   const handleDeleteJob = async (id, title) => {
-    const confirmed = window.confirm(`Do you want to delete ${title}?`);
+    const confirmed = window.confirm(`Do you want to delete ${title || 'this job'}?`);
     if (!confirmed) return;
 
     try {
@@ -69,10 +75,12 @@ export default function App() {
       });
 
       if (response.ok) {
-        setJobs(jobs.filter(job => job.id !== id));
+        setJobs(currentJobs => currentJobs.filter(job => job.id !== id));
+      } else {
+        throw new Error(`Delete failed (${response.status})`);
       }
     } catch (err) {
-      alert('error');
+      alert(err.message || 'Unable to delete job.');
     }
   };
 
@@ -93,9 +101,11 @@ export default function App() {
         } else {
           setJobs([newJob, ...jobs]);
         }
+      } else {
+        throw new Error(`Duplicate failed (${response.status})`);
       }
     } catch (err) {
-      alert('error');
+      alert(err.message || 'Unable to duplicate job.');
     }
   };
 

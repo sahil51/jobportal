@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { X, UploadCloud, AlertCircle } from 'lucide-react';
 
 export default function JobFormModal({ isOpen, onClose, onSubmit, initialData }) {
-  if (!isOpen) return null;
-
   const STATUS_OPTIONS = ['Draft', 'Requested', 'Posted', 'Filled'];
   const CATEGORY_OPTIONS = ['Full-time', 'Part-time', 'Intern', 'Contract', 'Remote'];
 
@@ -32,6 +30,7 @@ export default function JobFormModal({ isOpen, onClose, onSubmit, initialData })
       setStartDate(initialData.start_date || '');
       setEndDate(initialData.end_date || '');
       setDescription(initialData.description || '');
+      setImageFile(null);
 
       if (initialData.profile_picture) {
         const fullUrl = initialData.profile_picture.startsWith('http')
@@ -57,6 +56,8 @@ export default function JobFormModal({ isOpen, onClose, onSubmit, initialData })
 
     setErrorMsg('');
   }, [initialData]);
+
+  if (!isOpen) return null;
 
   const handleToggleStatus = (val) => {
     if (statusList.includes(val)) {
@@ -118,8 +119,8 @@ export default function JobFormModal({ isOpen, onClose, onSubmit, initialData })
     formData.append('address', address);
     formData.append('city', city);
     formData.append('state', state);
-    if (startDate) formData.append('start_date', startDate);
-    if (endDate) formData.append('end_date', endDate);
+    formData.append('start_date', startDate);
+    formData.append('end_date', endDate);
     formData.append('description', description);
 
     if (imageFile) {

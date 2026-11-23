@@ -63,12 +63,12 @@ export default function JobCard({ job, onEdit, onDelete, onDuplicate }) {
             </button>
           )}
           {onDuplicate && (
-            <button type="button" onClick={() => onDuplicate(job)}>
+            <button type="button" onClick={() => onDuplicate(job.id)}>
               Duplicate
             </button>
           )}
           {onDelete && (
-            <button type="button" onClick={() => onDelete(job)}>
+            <button type="button" onClick={() => onDelete(job.id, job.title)}>
               Delete
             </button>
           )}

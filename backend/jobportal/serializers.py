@@ -11,7 +11,7 @@ class JobSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def to_internal_value(self, data):
-        clean_data = data.copy()
+        clean_data = data.dict() if hasattr(data, 'dict') else dict(data)
         
         if 'status' in clean_data:
             val = clean_data['status']

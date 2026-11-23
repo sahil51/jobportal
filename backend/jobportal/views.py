@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Job
 from .serializers import JobSerializer
-import json
 
 
 @api_view(['GET','POST'])
@@ -22,20 +21,7 @@ def job_list_create(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
-        data = request.data.copy()
-        if 'status' in data and isinstance(data['status'], str):
-            try:
-                data['status'] = json.loads(data['status'])
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-        if 'category' in data and isinstance(data['category'], str):
-            try:
-                data['category'] = json.loads(data['category'])
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-        serializer = JobSerializer(data=data)
+        serializer = JobSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -55,19 +41,7 @@ def job_details_update_delete(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
-        data = request.data.copy()
-        if 'status' in data and isinstance(data['status'], str):
-            try:
-                data['status'] = json.loads(data['status'])
-            except (json.JSONDecodeError, TypeError):
-                pass
-        if 'category' in data and isinstance(data['category'], str):
-            try:
-                data['category'] = json.loads(data['category'])
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-        serializer = JobSerializer(job, data=data, partial=True)
+        serializer = JobSerializer(job, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
