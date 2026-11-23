@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Job
 from .serializers import JobSerializer
+import json
 
 
 @api_view(['GET','POST'])
@@ -21,9 +22,6 @@ def job_list_create(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
-<<<<<<< Updated upstream
-        serializer = JobSerializer(data=request.data)
-=======
         data = request.data.copy()
         mutable = {}
         for key in data:
@@ -44,7 +42,6 @@ def job_list_create(request):
                 pass
 
         serializer = JobSerializer(data=mutable, context={'request': request})
->>>>>>> Stashed changes
 
         if serializer.is_valid():
             serializer.save()
@@ -64,9 +61,6 @@ def job_details_update_delete(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
-<<<<<<< Updated upstream
-        serializer = JobSerializer(job, data=request.data, partial=True)
-=======
         data = request.data.copy()
         mutable = {}
         for key in data:
@@ -86,7 +80,6 @@ def job_details_update_delete(request, pk):
                 pass
 
         serializer = JobSerializer(job, data=mutable, partial=True, context={'request': request})
->>>>>>> Stashed changes
 
         if serializer.is_valid():
             serializer.save()
@@ -116,7 +109,7 @@ def analytics_view(request):
         else:
             pct = 0
         
-        status_distribution.append({'name':s_name,'count':count,'percentage':pct,'percentager':pct})
+        status_distribution.append({'name':s_name,'count':count,'percentage':pct})
         
     city_counts = {}
         

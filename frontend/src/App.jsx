@@ -65,15 +65,8 @@ export default function App() {
     await fetchJobs();
   };
 
-<<<<<<< Updated upstream
   const handleDeleteJob = async (id, title) => {
     const confirmed = window.confirm(`Do you want to delete ${title || 'this job'}?`);
-=======
-  const handleDeleteJob = async (idOrJob, maybeTitle) => {
-    const id = typeof idOrJob === 'object' && idOrJob !== null ? idOrJob.id : idOrJob;
-    const title = maybeTitle || (typeof idOrJob === 'object' && idOrJob !== null ? idOrJob.title : 'this job');
-    const confirmed = window.confirm(`Do you want to delete ${title}?`);
->>>>>>> Stashed changes
     if (!confirmed) return;
 
     try {
@@ -91,8 +84,7 @@ export default function App() {
     }
   };
 
-  const handleDuplicateJob = async (idOrJob) => {
-    const id = typeof idOrJob === 'object' && idOrJob !== null ? idOrJob.id : idOrJob;
+  const handleDuplicateJob = async (id) => {
     try {
       const response = await fetch(`${API_BASE}${id}/duplicate/`, {
         method: 'POST',

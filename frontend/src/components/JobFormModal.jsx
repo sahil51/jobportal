@@ -119,13 +119,8 @@ export default function JobFormModal({ isOpen, onClose, onSubmit, initialData })
     formData.append('address', address);
     formData.append('city', city);
     formData.append('state', state);
-<<<<<<< Updated upstream
-    formData.append('start_date', startDate);
-    formData.append('end_date', endDate);
-=======
     formData.append('start_date', startDate || '');
     formData.append('end_date', endDate || '');
->>>>>>> Stashed changes
     formData.append('description', description);
 
     if (imageFile) {

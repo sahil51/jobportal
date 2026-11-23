@@ -57,25 +57,6 @@ export default function JobCard({ job, onEdit, onDelete, onDuplicate }) {
         )}
       </div>
 
-<<<<<<< Updated upstream
-        <div className="card-actions">
-          {onEdit && (
-            <button type="button" onClick={() => onEdit(job)}>
-              Edit
-            </button>
-          )}
-          {onDuplicate && (
-            <button type="button" onClick={() => onDuplicate(job.id)}>
-              Duplicate
-            </button>
-          )}
-          {onDelete && (
-            <button type="button" onClick={() => onDelete(job.id, job.title)}>
-              Delete
-            </button>
-          )}
-        </div>
-=======
       <div className="card-buttons">
         {onEdit && (
           <button type="button" className="btn-small" onClick={() => onEdit(job)}>
@@ -92,7 +73,6 @@ export default function JobCard({ job, onEdit, onDelete, onDuplicate }) {
             Delete
           </button>
         )}
->>>>>>> Stashed changes
       </div>
     </article>
   );
