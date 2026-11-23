@@ -17,11 +17,34 @@ def job_list_create(request):
         if status_val:
             jobs = jobs.filter(status__contains=[status_val])
 
-        serializer = JobSerializer(jobs, many=True)
+        serializer = JobSerializer(jobs, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
+<<<<<<< Updated upstream
         serializer = JobSerializer(data=request.data)
+=======
+        data = request.data.copy()
+        mutable = {}
+        for key in data:
+            mutable[key] = data[key]
+        if request.FILES.get('profile_picture'):
+            mutable['profile_picture'] = request.FILES['profile_picture']
+
+        if 'status' in mutable and isinstance(mutable['status'], str):
+            try:
+                mutable['status'] = json.loads(mutable['status'])
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+        if 'category' in mutable and isinstance(mutable['category'], str):
+            try:
+                mutable['category'] = json.loads(mutable['category'])
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+        serializer = JobSerializer(data=mutable, context={'request': request})
+>>>>>>> Stashed changes
 
         if serializer.is_valid():
             serializer.save()
@@ -37,11 +60,33 @@ def job_details_update_delete(request, pk):
         return Response({'error': 'job does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = JobSerializer(job)
+        serializer = JobSerializer(job, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
+<<<<<<< Updated upstream
         serializer = JobSerializer(job, data=request.data, partial=True)
+=======
+        data = request.data.copy()
+        mutable = {}
+        for key in data:
+            mutable[key] = data[key]
+        if request.FILES.get('profile_picture'):
+            mutable['profile_picture'] = request.FILES['profile_picture']
+
+        if 'status' in mutable and isinstance(mutable['status'], str):
+            try:
+                mutable['status'] = json.loads(mutable['status'])
+            except (json.JSONDecodeError, TypeError):
+                pass
+        if 'category' in mutable and isinstance(mutable['category'], str):
+            try:
+                mutable['category'] = json.loads(mutable['category'])
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+        serializer = JobSerializer(job, data=mutable, partial=True, context={'request': request})
+>>>>>>> Stashed changes
 
         if serializer.is_valid():
             serializer.save()
@@ -71,7 +116,7 @@ def analytics_view(request):
         else:
             pct = 0
         
-        status_distribution.append({'name':s_name,'count':count,'percentager':pct})
+        status_distribution.append({'name':s_name,'count':count,'percentage':pct,'percentager':pct})
         
     city_counts = {}
         
@@ -123,7 +168,7 @@ def job_duplicate(request,pk):
             description=original.description
         )
         
-        serializer = JobSerializer(duplicate)
+        serializer = JobSerializer(duplicate, context={'request': request})
         
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     

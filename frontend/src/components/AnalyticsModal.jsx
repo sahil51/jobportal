@@ -31,7 +31,8 @@ export default function AnalyticsModal({ isOpen, onClose }) {
 
     let cumulativeAngle = 0;
     const slices = statusList.map((item, idx) => {
-      const sliceAngle = (item.percentage / 100) * 360;
+      const pctVal = item.percentage ?? item.percentager ?? 0;
+      const sliceAngle = (pctVal / 100) * 360;
       const startAngle = cumulativeAngle;
       const endAngle = cumulativeAngle + sliceAngle;
       cumulativeAngle += sliceAngle;
@@ -69,7 +70,7 @@ export default function AnalyticsModal({ isOpen, onClose }) {
                 <span className="legend-color-dot" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></span>
                 {item.name}
               </span>
-              <b>{item.percentage}% ({item.count})</b>
+              <b>{(item.percentage ?? item.percentager ?? 0)}% ({item.count})</b>
             </div>
           ))}
         </div>

@@ -9,7 +9,7 @@ env/
 *.egg-info/
 .pytest_cache/
 .mypy_cache/
-
+myvenv
 # Django
 backend/db.sqlite3
 backend/media/

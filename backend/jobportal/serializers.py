@@ -54,5 +54,5 @@ class JobSerializer(serializers.ModelSerializer):
         
         if start_date and end_date:
             if end_date < start_date:
-                raise serializers.ValidationError({'end_date':'end date connot be before start date'})
+                raise serializers.ValidationError({'end_date':'end date cannot be before start date'})
         return data

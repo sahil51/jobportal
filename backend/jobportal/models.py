@@ -2,23 +2,25 @@ from django.db import models
 
 # Create your models here.
 
-STATUS_CHOICES = [('Draft','draft'),
-                  ('Requested','requested'),
-                  ('Posetd','posted'),
-                  ('Filled','Filled')]
+STATUS_CHOICES = [
+    ('Draft', 'Draft'),
+    ('Requested', 'Requested'),
+    ('Posted', 'Posted'),
+    ('Filled', 'Filled')
+]
 
-CATEGOERY_CHOICES = [
-    ('Full-time','Full-time'),
-    ('Part-time','Part-time'),
-    ('Intern','Intern'),
-    ('Contract','Contract'),
-    ('Remote','Remote')
+CATEGORY_CHOICES = [
+    ('Full-time', 'Full-time'),
+    ('Part-time', 'Part-time'),
+    ('Intern', 'Intern'),
+    ('Contract', 'Contract'),
+    ('Remote', 'Remote')
 ]
 class Job(models.Model):
     title = models.CharField(max_length=255,help_text='Frontend Engineer or Backedend Engineer')
     profile_picture = models.ImageField(upload_to="job_pictures/", null=True, blank=True, help_text='upload image')
-    status = models.JSONField(default=list,blank=True,help_text="['Draft','Published]",choices=STATUS_CHOICES)
-    category = models.JSONField(default=list,blank=True,help_text="['Full_Time','remote]",choices=CATEGOERY_CHOICES)
+    status = models.JSONField(default=list,blank=True,help_text="['Draft','Published]")
+    category = models.JSONField(default=list,blank=True,help_text="['Full_Time','remote]")
     address = models.CharField(max_length=150,blank=True,default="")
     city = models.CharField(max_length=100,blank=True,default='')
     state = models.CharField(max_length=100,blank=True,default='')
